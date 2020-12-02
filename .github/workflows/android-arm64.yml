@@ -8,9 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
       with:
         submodules: true
+    - uses: Trass3r/setup-cpp@master
     - name: free disk space
       run: |
         sudo swapoff -a
@@ -22,7 +23,7 @@ jobs:
       run: docker build -f Dockerfile.android -t hangover-android-build .
     - name: get apk
       run: docker run --rm hangover-android-build tar -C /root/hangover/build/wine-host/dlls/wineandroid.drv/ -cf - hangover-debug.apk | tar -xvf -
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v2
       with:
         name: apk
         path: hangover-debug.apk
